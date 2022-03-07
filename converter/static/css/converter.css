@@ -50,11 +50,49 @@ body{
 }
 .converter .cur-input{
     position: absolute;
-    margin-left: 550px;
-    margin-top: 220px;
+    margin-left: 500px;
+    margin-top: 20px;
 }
-.converter .cur-input .content{
-    margin-top: 12px;
+.converter .cur-input .input-value{
+    margin-top: 10px;
     padding: 15px;
+    
+}
+.converter .cur-input .input-value input{
     font-family: 'Poppins';
+    width: 300px;
+    padding: 10px;
+    font-weight: bold;
+}
+
+.converter .cur-input .content{
+    margin-top: 10px;
+    margin-left: 113px;
+    margin-bottom: 4px;
+    padding: 15px;
+}
+.converter .cur-input .content select{
+    padding: 4px;
+    font-family: 'Poppins';
+    font-weight: bold;
+}
+.converter .submitbtn{
+    position: absolute;
+    margin-left: 610px;
+    margin-top: 220px;
+    
+}
+.converter .submitbtn input{
+    font-family: 'Poppins';
+    font-weight: bold;
+    padding: 10px;
+    margin-top: 25px;
+    width: 100px;
+}
+.result{
+    position: absolute;
+    margin-left: 580px;
+    margin-top: 320px;
+    font-family: 'Poppins';
+    font-size: 20px;
 }

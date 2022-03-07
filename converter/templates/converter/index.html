@@ -19,19 +19,45 @@
         </div>
     </header>
     <div class="converter">
-        <div class="cur-input">
-            <input class="content" type="number" value="1">
-            <select class="content" name="Country Currency">
-                
-            </select>
-            <br>
-            <input class="content" type="number" value="1">
-            <select class="content" name="Country Currency">
-                
-            </select>
-        </div>
+        <form id="form" action="." method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="cur-input">
+                <div class="input-value">
+                    {{ currency_form.source_currency_value}}
+                </div>
+                <div class="content">
+                    {{ currency_form.source_currency_code}}
+                </div>
+                <div class="content">
+                    {{ currency_form.target_currency_code}}
+                </div>
+            </div>
+            {% if converted_currency %}
+            <div class="result">
+                <div class="result-amount">
+                    <h5>Converted amount</h5>
+                        <h5>from <b>{{currency_form.source_currency_code.value}}</b> to
+                            <b>{{currency_form.target_currency_code.value}}</b> is:</h5>
+                </div>
+                <div class="content">
+                    {{converted_currency}}
+                </div>
+            </div>
+            {% endif %}
+            <hr class="hr-line-dashed">
+            <div class="submitbtn">
+                <input id="submit" type="submit" value="Convert" />
+            </div>
+        </form>
     </div>
-    
-    
+    <script>
+        $(document).ready(function () {
+            $("#submit").click(function () {
+                if($('#id_source_currency_value').val()){
+                    $('#submit').attr('value', 'Converting...');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
