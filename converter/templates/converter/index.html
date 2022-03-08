@@ -6,18 +6,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Currency Converter</title>
-    <link rel="stylesheet" href="{% static 'css/converter.css' %} ">
+    <link rel="stylesheet" href="{% static 'css/index.css' %} ">
 </head>
 <body>
     <header class="header">
         <div class="logo">
-            <a href="">Currency Converter</a>
+            <a href="{% url 'index' %}">Currency Converter</a>
         </div>
         <div class="auth">
-            <a href="">Login</a>
-            <a href="">Sign Up</a>
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'signup' %}">Sign Up</a>
         </div>
     </header>
+    {% if messages %}
+    {% for message in messages %}
+    <div>
+      <strong>{{ message }}</strong>
+        <button type="button">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endfor %}
+    {% endif %}
     <div class="converter">
         <form id="form" action="." method="POST" enctype="multipart/form-data">
             {% csrf_token %}
@@ -35,7 +45,7 @@
             {% if converted_currency %}
             <div class="result">
                 <div class="result-amount">
-                    <h5>Converted amount</h5>
+                    <h4>Converted amount</h4>
                         <h5>from <b>{{currency_form.source_currency_code.value}}</b> to
                             <b>{{currency_form.target_currency_code.value}}</b> is:</h5>
                 </div>
@@ -50,14 +60,17 @@
             </div>
         </form>
     </div>
-    <script>
-        $(document).ready(function () {
-            $("#submit").click(function () {
-                if($('#id_source_currency_value').val()){
-                    $('#submit').attr('value', 'Converting...');
-                }
-            });
-        });
-    </script>
 </body>
+
+<!-- jQuery for button -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>    
+<script>
+    $(document).ready(function () {
+        $("#submit").click(function () {
+            if($('#id_source_currency_value').val()){
+                $('#submit').attr('value', 'Converting...');
+            }
+        });
+    });
+</script>
 </html>

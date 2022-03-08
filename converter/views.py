@@ -1,6 +1,10 @@
 
-from django.shortcuts import render
+from django import urls
+from django.shortcuts import render, redirect
 from converter import forms
+from django.contrib.auth import login,logout
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib import messages
 import requests
 import json
 
@@ -19,7 +23,6 @@ def index(request):
 
     converted_currency = ""
     if request.method == "POST":
-        # check sanitation
         if currency_form.is_valid():
 
             # values from the html input fields
@@ -33,8 +36,11 @@ def index(request):
             
             # logic to calculate the converted_currency
             converted_currency = (to_country_base_value / from_country_base_value) * float(input_currency_value)
-
-            return render(request, 'converter/index.html', {'currency_form':currency_form, 'converted_currency':converted_currency})
+            context = {
+                'currency_form':currency_form,
+                'converted_currency':converted_currency
+            }
+            return render(request, 'converter/index.html', context)
 
     # form initialization
     context = {
@@ -42,3 +48,36 @@ def index(request):
         'converted_currency':converted_currency
     }
     return render(request, 'converter/index.html', context)
+
+def login_view(request):
+    if request.method == "POST":
+        # username = request.POST.get('username')
+        # password = request.POST.get('password')
+        # user = authenticate(username = username, password = password)
+        # if user is not None:
+        #     login(request,user)
+        #     if request.user:
+        #         messages.success(request, "Successfully Loged In...")
+        #         return redirect("/index")
+        #     else:
+        #         messages.warning(request, "Please Login or sign up for new accout!!")
+        #         return redirect('login/')
+        # if user is not None:
+        #     messages.warning(request, "Invalid User")
+        #     return redirect('/login')
+        # messages.warning(request, "Invalid User")
+        # return redirect('/login')
+
+        form = AuthenticationForm(data = request.POST)
+        if form.is_valid():
+            #login the user
+            user = form.get_user()
+            login(request,user)
+            messages.success(request, "Successfully Loged In...")
+            return redirect('index')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'converter/login.html', {'form':form})
+
+def signup(request):
+    return render(request, 'converter/signup.html')
