@@ -79,5 +79,13 @@ def login_view(request):
         form = AuthenticationForm()
     return render(request, 'converter/login.html', {'form':form})
 
-def signup(request):
-    return render(request, 'converter/signup.html')
+def signup_view(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Account is created...")
+            return redirect('index')
+    else:
+        form = UserCreationForm()
+    return render(request, 'converter/signup.html', {'form':form})
